@@ -1,6 +1,9 @@
 <?php 
 session_start();
 include_once 'inc/config.php';
+
+$data = mysqli_query($connect, "SELECT * FROM cars WHERE status = 'Available'");
+//$car = mysqli_fetch_array($data);
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +56,7 @@ include_once 'inc/config.php';
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="index.php">Home</a></li>
         <li><a href="contact.php">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -71,59 +74,29 @@ include_once 'inc/config.php';
 
 <div class="container">    
   <div class="row">
+  <div class="text-center">
+  <h1>Welcome to Heaven Car Rental</h1>
+  <p>We provide you a various car to rent for your needs with affordable price!</p>
+  </div><br>
+  
+  <?php 
+  while($car = mysqli_fetch_array($data))
+  {
+  ?>
     <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
+      <div class="thumbnail">
+                    <img src="./images/cars/<?php echo $car['image']; ?>" style="height:200px;" alt="">
+                    <div class="caption">
+                        <h3><?php echo $car['car_name'];?></h3>
+                        <p>Rent Price: <b>RM<?php echo $car['rent_cost']; ?>/day</b></p>
+                        <p>
+                            <a href="car.php?id=<?php echo $car['car_id']; ?>" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
     </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-danger">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-success">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
+	<?php } ?>
   </div>
 </div><br>
 
-<div class="container">    
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-    <div class="col-sm-4"> 
-      <div class="panel panel-primary">
-        <div class="panel-heading">BLACK FRIDAY DEAL</div>
-        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-      </div>
-    </div>
-  </div>
-</div><br><br>
-
-<footer class="container-fluid text-center">
-  <p>Heaven Car Rental. Copyright &copy; 2017. All Right Reserved</p>  
-</footer>
-
-</body>
-</html>
+<?php include_once 'inc/footer.php'; ?>

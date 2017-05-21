@@ -1,36 +1,23 @@
 <?php 
-include_once 'inc/config.php';
+/*
+* Display available car 
+*/
 session_start();
+include_once 'inc/config.php';
 
-//if login, just redirect to homepage
-if(isset($_SESSION['userID'])!= ""){
-	header("Location: index.php");
-	exit;
-}
+$data = mysqli_query($connect, "SELECT * FROM cars WHERE car_id = '".$_GET['id']."'");
+$car = mysqli_fetch_array($data);
 
-//check if form submitted
-if(isset($_POST['login'])) {
-	$email = mysqli_real_escape_string($connect, $_POST['email']);
-	$pass = mysqli_real_escape_string($connect, $_POST['password']);
-	$result = mysqli_query($connect, "SELECT * FROM users WHERE email = '".$email."'");
-	
-	if($row = mysqli_fetch_array($result)) {
-		$hashed_password = $row['password'];
-		if(password_verify($pass, $hashed_password)){
-			$_SESSION['userID'] = $row['id'];
-			$_SESSION['name'] = $row['name'];
-			header("Location: index.php");
-			exit;
-		}
-	} else {
-		$errormsg = "Incorrect Email or Password!";
-	}
+if($car == 0)
+{
+	header('Location: 404.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Heaven Car Rental - Login</title>
+  <title>Heaven Car Rental - <?php echo $car['car_name']; ?></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -77,7 +64,7 @@ if(isset($_POST['login'])) {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.php">Home</a></li>
+        <li class="active"><a href="index.php">Home</a></li>
         <li><a href="contact.php">Contact</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -85,7 +72,7 @@ if(isset($_POST['login'])) {
 		<li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
 		<li><a href="logout.php"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
 		<?php } else { ?>
-        <li class="active"><a href="login.php"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+        <li><a href="login.php"><span class="glyphicon glyphicon-user"></span> Login</a></li>
         <li><a href="register.php"> Register</a></li>
 		<?php } ?>
       </ul>
@@ -94,23 +81,40 @@ if(isset($_POST['login'])) {
 </nav>
 
 <div class="container">    
-<h1>Login</h1>
-<span class="text-danger"><?php if (isset($errormsg)) { echo $errormsg; } ?></span>
-<form method="POST" action="">
-	<div class="form-group">
-		<label for="email">Email Address:</label>
-		<input type="email" class="form-control" id="email" placeholder="Enter Email.." name="email" required="required">
-	</div>
-	<div class="form-group">
-		<label for="password">Password:</label>
-		<input type="password" class="form-control" placeholder="Enter Password.." id="pwd" name="password" required="required">
-	</div>
-	<button type="submit" name="login" class="btn btn-default">Login</button>
-	<br>
-	<br>
-	<p>Not a member yet? <a href="register.php">Click here</a> to register.</p>
-</form>
+  <div class="row">
+  <div class="text-center">
+  <h1>Welcome to Heaven Car Rental</h1>
+  <p>We provide you a various car to rent for your needs with affordable price!</p>
+  </div><br>
+   <div class="thumbnail">
+                    <img class="img-responsive" src="./images/cars/<?php echo $car['image']; ?>" alt="">
+                    <div class="caption-full">
+                        <h4 class="pull-right">RM<?php echo $car['rent_cost']; ?>/day</h4>
+                        <h4><a href="#"><?php echo $car['car_name']; ?></a>
+                        </h4>
+                        <p>Car Type: <?php echo $car['car_type']; ?></p>
+                        <p>Capacity: <?php echo $car['capacity']; ?></p>
+						<p>Status: <?php echo $car['status']; ?></p>
+                    </div>
+                    <div class="ratings">
+                        <p class="pull-right">3 reviews</p>
+                        <p>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            4.0 stars
+                        </p>
+						<p>
+						Choose start date:
+						</p>
+						<div class="text-right">
+                        <a href="booking.php?id=<?php echo $car['car_id']; ?>" class="btn btn-success">Book now >></a>
+                    </div>
+                    </div>
+                </div>
   </div>
 </div><br>
 
-<?php include_once 'inc/footer.php' ?>
+<?php include_once 'inc/footer.php'; ?>

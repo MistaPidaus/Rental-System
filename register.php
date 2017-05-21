@@ -12,6 +12,7 @@ $error = false;
 
 //Check if form submitted
 if(isset($_POST['register'])){
+	//declare vars and prevent sqli
 	$name = mysqli_real_escape_string($connect, $_POST['fullname']);
 	$address = mysqli_real_escape_string($connect, $_POST['address']);
 	$state = mysqli_real_escape_string($connect, $_POST['state']);
@@ -27,21 +28,25 @@ if(isset($_POST['register'])){
 		$name_error = "Name must contain only alphabets and space";
 	}
 	
+	//validate email
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$error = true;
 		$email_error = "Please enter a valid email address";
 	}
 	
+	//validate pass length
 	if(strlen($pass) < 6) {
 		$error = true;
 		$password_error = "Password must be minimum of 6 characters";
 	}
 	
+	//validate confirm pass
 	if($pass != $cpass){
 		$error = true;
 		$cpass_error = "Your confirmation passwords did not match";
 	}
 	
+	//if there's no error..
 	if(!$error){
 	
 	$hashed_password = password_hash($pass, PASSWORD_DEFAULT);
@@ -126,7 +131,7 @@ if(isset($_POST['register'])){
 
 <div class="container">    
 <h1>Register</h1>
-
+<p>Already a member? <a href="login">Click here</a> to login.</p>
 <span class="text-success"><?php if (isset($success)) { echo $success; } ?></span>
 <span class="text-danger"><?php if (isset($errormsg)) { echo $errormsg; } ?></span>
 
