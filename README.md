@@ -5,7 +5,24 @@ Description:
 A simple rental system for my mini-project also to learn and improve my PHP skills.
 The development process is a results of learning Database Design and System Analysis and Design.
 
+# Features
+
+- Login System
+- Register System
+- Reservation System
+- Simple Bootstrap Template
+- Admin System
+  - Cancel Function
+  - Catalogue of Cars 
+  - Information of Users
+  
+  
+
 # Changelog
+5/30/2017:
+- Update the whole system!
+
+
 5/22/2017:
 - Updated Login System
 - Updated Register System
@@ -15,6 +32,7 @@ The development process is a results of learning Database Design and System Anal
 - Added .SQL
 
 Things TO-DO:
+<strike>
 - Booking System
 - Admin System:
   - Login System
@@ -25,7 +43,7 @@ Things TO-DO:
 - Assign Reservation car to customer
 - Create a table contains order by customer
 - Calculate Total Rate of Rent
-
+</strike>
 5/21/2017: 
 - Login System
 - Register System
