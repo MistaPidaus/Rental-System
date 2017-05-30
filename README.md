@@ -16,7 +16,15 @@ The development process is a results of learning Database Design and System Anal
   - Catalogue of Cars 
   - Information of Users
   
-  
+ # Notes
+ If you like the project and would like to use for learning, you can use it and learn it and please do not remove any credits. 
+ 
+ # Donation
+ Like my project? Donate some cookies for me :D
+ 
+ **Bitcoin Wallet: 19YuLueZBJb5j4ChHk8J4riaGrNKdc3u5H**
+ 
+ Thanks!
 
 # Changelog
 5/30/2017:
