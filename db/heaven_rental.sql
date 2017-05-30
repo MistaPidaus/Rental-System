@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2017 at 07:28 PM
+-- Generation Time: May 23, 2017 at 04:59 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -51,11 +51,32 @@ INSERT INTO `cars` (`car_id`, `car_name`, `car_type`, `image`, `rent_cost`, `cap
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rent`
+--
+
+CREATE TABLE `rent` (
+  `rent_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rent`
+--
+
+INSERT INTO `rent` (`rent_id`, `user_id`, `car_id`, `total`, `status`) VALUES
+(0, 1, 2, 12000, 'Pending');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
   `state` varchar(100) NOT NULL,
@@ -63,14 +84,15 @@ CREATE TABLE `users` (
   `phone` varchar(12) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `address`, `state`, `zip`, `phone`, `email`, `password`) VALUES
-(1, 'sadasda', 'dsadasdas', 'dsadasdasd', '12312', '123123131231', 'da@da.ca', '$2y$10$rxzUCrxVYnkDegj/3ozTW.doCd3pqCMnsxvBVm2vZXbhdB4q59yjS');
+INSERT INTO `users` (`user_id`, `name`, `address`, `state`, `zip`, `phone`, `email`, `password`) VALUES
+(1, 'sadasda', 'dsadasdas', 'dsadasdasd', '12312', '123123131231', 'da@da.ca', '$2y$10$rxzUCrxVYnkDegj/3ozTW.doCd3pqCMnsxvBVm2vZXbhdB4q59yjS'),
+(2, 'hafiza', 'kota bharu', 'kelantan', '15150', '999', 'princess_yoyo@gmail.com', '$2y$10$4pYRY02JtSBwtwWlGUbspexZeW.U8S2PEsXWyoXatd9pe1IeQ2n0m');
 
 --
 -- Indexes for dumped tables
@@ -83,10 +105,18 @@ ALTER TABLE `cars`
   ADD PRIMARY KEY (`car_id`);
 
 --
+-- Indexes for table `rent`
+--
+ALTER TABLE `rent`
+  ADD PRIMARY KEY (`rent_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `car_id` (`car_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -102,7 +132,18 @@ ALTER TABLE `cars`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `rent`
+--
+ALTER TABLE `rent`
+  ADD CONSTRAINT `rent_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `rent_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,5 +1,5 @@
 <?php 
-include_once 'inc/config.php';
+include_once '../inc/config.php';
 session_start();
 
 if(isset($_SESSION['userID'])) {
@@ -14,9 +14,6 @@ $error = false;
 if(isset($_POST['register'])){
 	//declare vars and prevent sqli
 	$name = mysqli_real_escape_string($connect, $_POST['fullname']);
-	$address = mysqli_real_escape_string($connect, $_POST['address']);
-	$state = mysqli_real_escape_string($connect, $_POST['state']);
-	$zip = mysqli_real_escape_string($connect, $_POST['postcode']);
 	$phone = mysqli_real_escape_string($connect, $_POST['phone']);
 	$email = mysqli_real_escape_string($connect, $_POST['email']);
 	$pass = mysqli_real_escape_string($connect, $_POST['password']);
@@ -51,11 +48,11 @@ if(isset($_POST['register'])){
 	
 	$hashed_password = password_hash($pass, PASSWORD_DEFAULT);
 	
-		if(mysqli_query($connect, "INSERT INTO users(name, address, state, zip, phone, email, password, admin_rank) VALUES
-		('".$name."', '".$address."', '".$state."', '".$zip."', '".$phone."', '".$email."', '".$hashed_password."', '0')")){
-			$success = "<div class='alert alert-success'><strong>Successfully Registered!</strong> <a href='login.php'>Click here to login</a></div>";
+		if(mysqli_query($connect, "INSERT INTO admin_user(name, phone, email, password) VALUES
+		('".$name."', '".$phone."', '".$email."', '".$hashed_password."')")){
+			$success = "Successfully Registered Admin Account! <a href='login.php'>Click here to login</a>";
 		}else{
-			$errormsg = "<div class='alert alert-danger'>Error in register. Please try again later or contact support.</div>";
+			$errormsg = "Error in register. Please try again later.";
 		}
 	}	
 }
@@ -66,12 +63,52 @@ if(isset($_POST['register'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Heaven Car Rental - Register</title>
-<?php include_once 'inc/header.php'; ?>
+  <title>Heaven Car Rental - Register Admin Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  $(function () {
+  	$('.navbar-toggle-sidebar').click(function () {
+  		$('.navbar-nav').toggleClass('slide-in');
+  		$('.side-body').toggleClass('body-slide-in');
+  		$('#search').removeClass('in').addClass('collapse').slideUp(200);
+  	});
 
-<div class="container">    
-<h1>Register</h1>
-<p>Already a member? <a href="login">Click here</a> to login.</p>
+  	$('#search-trigger').click(function () {
+  		$('.navbar-nav').removeClass('slide-in');
+  		$('.side-body').removeClass('body-slide-in');
+  		$('.search-input').focus();
+  	});
+  });
+  </script>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">
+				Heaven Car Rental - Administrator
+			</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		</div><!-- /.container-fluid -->
+	</nav>  	
+	<div class="container-fluid main-container">
+  		<div class="col-md-2 sidebar">
+  			<div class="row">
+	<!-- uncomment code for absolute positioning tweek see top comment in css -->
+	<div class="absolute-wrapper"> </div>
+	<!-- Menu -->
+</div>  		</div>
+  		<div class="col-md-10 content">
+  			  <div class="panel panel-default">
+	<div class="panel-heading">
+		Register Admin Account
+	</div>
+	<div class="panel-body">
+		<div class="container">    
 <span class="text-success"><?php if (isset($success)) { echo $success; } ?></span>
 <span class="text-danger"><?php if (isset($errormsg)) { echo $errormsg; } ?></span>
 
@@ -97,24 +134,15 @@ if(isset($_POST['register'])){
 	<span class="text-danger"><?php if (isset($name_error)) echo $name_error; ?></span>
 	</div>
 	<div class="form-group">
-		<label for="address">Address:</label>
-		<input type="address" name="address" class="form-control" placeholder="Enter Your Full Address" id="address" required="required">
-	</div>
-	<div class="form-group">
-		<label for="state">State:</label>
-		<input type="state" name="state" class="form-control" placeholder="State" id="state" required="required">
-	</div>
-	<div class="form-group">
-		<label for="postcode">Postcode:</label>
-		<input type="zipcode" name="postcode" class="form-control" placeholder="Postcode/Zipcode" maxlength="5" id="postcode" required="required">
-	</div>
-	<div class="form-group">
 		<label for="phone">Phone Number:</label>
 		<input type="phone" name="phone" class="form-control" placeholder="Phone Number" id="phone" maxlength="13" required="required">
 	</div>
 	<button type="submit" name="register" class="btn btn-default">Register</button>
 </form>
+	</div>
+</div>
+  		</div>
   </div>
 </div><br>
 
-<?php include_once 'inc/footer.php' ?>
+<?php include_once '../inc/footer.php' ?>
